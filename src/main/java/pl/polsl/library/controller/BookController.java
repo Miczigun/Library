@@ -23,9 +23,14 @@ public class BookController {
         return bookService.getSingleBook(id);
     }
 
-    @PostMapping("/books")
+    @GetMapping("/books/add")
     public Book addBook(@RequestBody Book book){
         return bookService.addBook(book);
+    }
+
+    @GetMapping("/books/delete/{id}")
+    public void deleteBook(@PathVariable long id){
+        bookService.deleteBook(id);
     }
 
 }
