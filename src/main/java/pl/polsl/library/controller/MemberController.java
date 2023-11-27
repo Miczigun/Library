@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import pl.polsl.library.model.Book;
+import pl.polsl.library.model.Member;
 import pl.polsl.library.service.MemberService;
 
 import java.util.List;
@@ -27,4 +28,8 @@ public class MemberController {
         memberService.deleteMember(id);
     }
 
+    @GetMapping("/{id}")
+    public Member getMember(@PathVariable long id){
+        return memberService.getMember(id);
+    }
 }
