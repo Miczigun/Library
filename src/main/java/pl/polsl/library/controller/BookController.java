@@ -9,16 +9,17 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/books")
 public class BookController {
 
     private final BookService bookService;
 
-    @GetMapping("/books")
+    @GetMapping("/")
     public List<Book> getBooks(){
         return bookService.getBooks();
     }
 
-    @GetMapping("/books/{id}")
+    @GetMapping("/{id}")
     public Book getBook(@PathVariable long id){
         return bookService.getSingleBook(id);
     }
