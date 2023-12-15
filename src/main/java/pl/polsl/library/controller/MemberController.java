@@ -1,10 +1,7 @@
 package pl.polsl.library.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.polsl.library.model.Book;
 import pl.polsl.library.model.Member;
 import pl.polsl.library.service.MemberService;
@@ -14,6 +11,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
+@CrossOrigin("*")
 public class MemberController {
 
     private final MemberService memberService;

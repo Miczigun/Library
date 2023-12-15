@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/librarian")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class LibrarianController {
 
     private final MemberService memberService;
