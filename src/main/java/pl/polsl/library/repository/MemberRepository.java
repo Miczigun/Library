@@ -8,10 +8,11 @@ import pl.polsl.library.model.Member;
 import pl.polsl.library.model.MemberProjection;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
-    Member findByEmail(String email);
+    Optional<Member> findByEmail(String email);
 
     @Query("SELECT m.id as id, m.email AS email, m.name AS name, m.surname AS surname, m.address AS address FROM Member m")
     List<MemberProjection> findAllMembers();

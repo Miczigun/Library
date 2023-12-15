@@ -1,6 +1,11 @@
 package pl.polsl.library.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.polsl.library.model.*;
 import pl.polsl.library.repository.LoanRepository;
@@ -11,10 +16,18 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class MemberService {
+public class MemberService implements UserDetailsService {
 
     private final MemberRepository memberRepository;
     private final LoanRepository loanRepository;
+
+    @Autowired
+    private PasswordEncoder encoder;
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return memberRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("user is not valid"));
+    }
 
     public List<Member> getMembers(){
         return memberRepository.findAll();
@@ -34,7 +47,7 @@ public class MemberService {
     }
 
     public Member getMemberByEmail(String email){
-        return memberRepository.findByEmail(email);
+        return memberRepository.findByEmail(email).orElseThrow();
     }
 
     public Member addMember(Member member){
