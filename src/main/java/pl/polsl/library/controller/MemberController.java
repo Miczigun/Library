@@ -16,6 +16,11 @@ public class MemberController {
 
     private final MemberService memberService;
 
+    @GetMapping("/test")
+    public String testReturn(){
+        return "Sample data";
+    }
+
     @GetMapping("/{id}/books")
     public List<Book> userBooks(@PathVariable long id){
         return memberService.userBooks(id);

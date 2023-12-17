@@ -49,16 +49,17 @@ public class AuthenticationService {
         return memberRepository.save(new Member(email, encodedPassword, authorities));
     }
 
-    public LoginMember loginUser(String username, String password){
+    public LoginMember loginUser(String email, String password){
 
         try{
             Authentication auth = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(username, password)
+                    new UsernamePasswordAuthenticationToken(email, password)
             );
+            System.out.println(auth);
 
             String token = tokenService.generateJwt(auth);
             // it can be bad solution!
-            return new LoginMember(memberRepository.findByEmail(username).get(), token);
+            return new LoginMember(memberRepository.findByEmail(email).get(), token);
 
         } catch(AuthenticationException e){
             return new LoginMember(null, "");
