@@ -1,6 +1,7 @@
 package pl.polsl.library.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import pl.polsl.library.model.Book;
 import pl.polsl.library.service.BookService;
@@ -16,8 +17,9 @@ public class BookController {
     private final BookService bookService;
 
     @GetMapping("")
-    public List<Book> getBooks(){
-        return bookService.getBooks();
+    public List<Book> getBooks(@RequestParam(required = false) Integer page){
+        int pageNumber = page != null && page >= 0 ? page : 0;
+        return bookService.getBooks(pageNumber);
     }
 
     @GetMapping("/{id}")

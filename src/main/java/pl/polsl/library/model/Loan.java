@@ -19,7 +19,19 @@ public class Loan {
     @ManyToOne
     @JoinColumn(name = "id_member")
     private Member memberId;
-    private LocalDate CheckOutDate;
-    private LocalDate DueDate;
-    private LocalDate ReturnDate;
+    private LocalDate checkOutDate;
+    private LocalDate dueDate;
+    private LocalDate returnDate;
+    private boolean returnStatus;
+
+    public Loan(){
+
+    }
+
+    public Loan(Book book, Member member){
+        this.bookId = book;
+        this.memberId = member;
+        this.checkOutDate = LocalDate.now();
+        this.returnStatus = false;
+    }
 }

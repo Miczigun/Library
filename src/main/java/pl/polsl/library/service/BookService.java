@@ -1,6 +1,8 @@
 package pl.polsl.library.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import pl.polsl.library.model.Book;
 import pl.polsl.library.repository.BookRepository;
@@ -12,9 +14,10 @@ import java.util.List;
 public class BookService {
 
     private final BookRepository bookRepository;
+    private final static int PAGE_SIZE = 20;
 
-    public List<Book> getBooks(){
-        return bookRepository.findAll();
+    public List<Book> getBooks(int page){
+        return bookRepository.findAllBooks(PageRequest.of(page,PAGE_SIZE));
     }
 
     public Book getSingleBook(long id){

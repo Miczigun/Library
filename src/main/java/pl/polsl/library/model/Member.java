@@ -17,12 +17,15 @@ public class Member implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
     @Column(unique = true)
     private String email;
+
     private String password;
     private String name;
     private String surname;
     private String address;
+    private double penaltyPayment;
 
     @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(

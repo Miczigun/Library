@@ -1,12 +1,14 @@
 package pl.polsl.library.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import pl.polsl.library.model.Book;
 import pl.polsl.library.model.Member;
 import pl.polsl.library.model.MemberBooks;
 import pl.polsl.library.model.MemberProjection;
 import pl.polsl.library.service.BookService;
+import pl.polsl.library.service.LibrarianService;
 import pl.polsl.library.service.MemberService;
 
 import java.util.List;
@@ -17,22 +19,23 @@ import java.util.List;
 @CrossOrigin("*")
 public class LibrarianController {
 
-    private final MemberService memberService;
+    private final LibrarianService librarianService;
     private final BookService bookService;
 
     @GetMapping("/user")
     public List<MemberProjection> getMembers(){
-        return memberService.getMembersForLibrarian();
+        return librarianService.getMembersForLibrarian();
     }
 
     @GetMapping("/user/{id}")
     public MemberBooks getMemberBooks(@PathVariable long id){
-        return memberService.userBooksForLibrarian(id);
+        return librarianService.userBooksForLibrarian(id);
     }
 
     @GetMapping("/book")
-    public List<Book> getBooks(){
-        return bookService.getBooks();
+    public List<Book> getBooks(@RequestParam(required = false) Integer page){
+        int pageNumber = page != null && page >= 0 ? page : 0;
+        return bookService.getBooks(pageNumber);
     }
 
     @GetMapping("/book/{id}")
