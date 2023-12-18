@@ -1,17 +1,12 @@
 package pl.polsl.library.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
-import pl.polsl.library.model.Book;
-import pl.polsl.library.model.Loan;
 import pl.polsl.library.model.Member;
 import pl.polsl.library.model.dto.LoanDto;
-import pl.polsl.library.repository.LoanRepository;
 import pl.polsl.library.service.MemberService;
 
 import java.util.List;

@@ -1,7 +1,9 @@
-package pl.polsl.library.model;
+package pl.polsl.library.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import pl.polsl.library.model.Book;
+import pl.polsl.library.model.dto.MemberProjection;
 
 import java.util.List;
 

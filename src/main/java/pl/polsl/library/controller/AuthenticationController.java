@@ -2,9 +2,9 @@ package pl.polsl.library.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import pl.polsl.library.model.LoginMember;
+import pl.polsl.library.model.dto.LoginMember;
 import pl.polsl.library.model.Member;
-import pl.polsl.library.model.RegisterMember;
+import pl.polsl.library.model.dto.RegisterMember;
 import pl.polsl.library.service.AuthenticationService;
 
 @RestController

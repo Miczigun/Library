@@ -1,4 +1,4 @@
-package pl.polsl.library.model;
+package pl.polsl.library.model.dto;
 
 import lombok.Getter;
 import lombok.Setter;

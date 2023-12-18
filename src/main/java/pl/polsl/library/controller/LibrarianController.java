@@ -1,15 +1,12 @@
 package pl.polsl.library.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 import pl.polsl.library.model.Book;
-import pl.polsl.library.model.Member;
-import pl.polsl.library.model.MemberBooks;
-import pl.polsl.library.model.MemberProjection;
+import pl.polsl.library.model.dto.MemberBooks;
+import pl.polsl.library.model.dto.MemberProjection;
 import pl.polsl.library.service.BookService;
 import pl.polsl.library.service.LibrarianService;
-import pl.polsl.library.service.MemberService;
 
 import java.util.List;
 

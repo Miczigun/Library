@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.polsl.library.model.Book;
 import pl.polsl.library.model.Loan;
-import pl.polsl.library.model.MemberBooks;
-import pl.polsl.library.model.MemberProjection;
+import pl.polsl.library.model.dto.MemberBooks;
+import pl.polsl.library.model.dto.MemberProjection;
 import pl.polsl.library.repository.LoanRepository;
 import pl.polsl.library.repository.MemberRepository;
 
