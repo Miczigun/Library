@@ -8,7 +8,6 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
 public class LoanDto {
     private long id;
     private long bookId;

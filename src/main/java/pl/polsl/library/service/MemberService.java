@@ -13,6 +13,7 @@ import pl.polsl.library.repository.BookRepository;
 import pl.polsl.library.repository.LoanRepository;
 import pl.polsl.library.repository.MemberRepository;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -83,6 +84,24 @@ public class MemberService implements UserDetailsService {
         bookRepository.save(book);
         loanRepository.save(loan);
         return true;
+    }
+
+    public int returnBook(long loanId){
+        Loan loan = loanRepository.findById(loanId).orElseThrow();
+
+        loan.setReturnDate(LocalDate.now());
+        int days = loan.getReturnDate().compareTo(loan.getDueDate());
+
+        if (days <= 0){
+            days = 0;
+        } else {
+            loan.getMemberId().setPenaltyPayment(days);
+        }
+
+        loan.getBookId().setQuantity(loan.getBookId().getQuantity() + 1);
+        loan.setReturnStatus(true);
+        loanRepository.save(loan);
+        return days;
     }
 
     public List<LoanDto> getUserLoans(long userId) {

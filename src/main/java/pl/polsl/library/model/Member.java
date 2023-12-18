@@ -25,7 +25,7 @@ public class Member implements UserDetails {
     private String name;
     private String surname;
     private String address;
-    private double penaltyPayment;
+    private int penaltyPayment;
 
     @ManyToMany(fetch=FetchType.EAGER)
     @JoinTable(

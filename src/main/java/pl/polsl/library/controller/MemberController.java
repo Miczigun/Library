@@ -38,6 +38,11 @@ public class MemberController {
         }
     }
 
+    @PostMapping("/return/{id}")
+    public int returnBook(@PathVariable long id){
+        return memberService.returnBook(id);
+    }
+
     @GetMapping("/books")
     public List<LoanDto> userBooks(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
