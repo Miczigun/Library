@@ -55,7 +55,6 @@ public class AuthenticationService {
             Authentication auth = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(email, password)
             );
-            System.out.println(auth);
 
             String token = tokenService.generateJwt(auth);
             // it can be bad solution!
@@ -64,6 +63,14 @@ public class AuthenticationService {
         } catch(AuthenticationException e){
             return new LoginMember(null, "");
         }
+    }
+
+    public boolean existsUser(String email){
+        Member member = memberRepository.findByEmail(email).orElseThrow();
+        if (member == null){
+            return false;
+        }
+        return true;
     }
 
 }

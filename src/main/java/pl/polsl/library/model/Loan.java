@@ -13,12 +13,15 @@ public class Loan {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+
     @ManyToOne
     @JoinColumn(name = "id_book")
     private Book bookId;
+
     @ManyToOne
     @JoinColumn(name = "id_member")
     private Member memberId;
+
     private LocalDate checkOutDate;
     private LocalDate dueDate;
     private LocalDate returnDate;
