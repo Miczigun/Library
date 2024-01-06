@@ -1,15 +1,21 @@
 package pl.polsl.library.controller;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.polsl.library.model.Member;
+import pl.polsl.library.model.dto.ChangePasswordDto;
 import pl.polsl.library.model.dto.LoanDto;
+import pl.polsl.library.model.dto.PersonalDataDto;
 import pl.polsl.library.service.MemberService;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -45,6 +51,31 @@ public class MemberController {
         Member member = memberService.getMemberByEmail(userEmail);
 
         return memberService.getUserLoans(member.getId());
+    }
+
+    @PostMapping("/personal-data")
+    public void addPersonalData(@RequestBody PersonalDataDto personalData){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+        Member member = memberService.getMemberByEmail(userEmail);
+        memberService.addPersonalData(member.getId(), personalData);
+    }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<Map<String, String>> changePassword(@Valid @RequestBody ChangePasswordDto changePassword, BindingResult bindingResult){
+        if (bindingResult.hasErrors()){
+            return new ResponseEntity<>(Map.of("message","New password must have minimum 8 characters"), HttpStatus.BAD_REQUEST);
+        }
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+        Member member = memberService.getMemberByEmail(userEmail);
+
+        if (memberService.changePassword(member.getId(), changePassword)){
+            return new ResponseEntity<>(Map.of("message","Success"),HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(Map.of("message","Invalid password"), HttpStatus.BAD_REQUEST);
+        }
     }
 
 }

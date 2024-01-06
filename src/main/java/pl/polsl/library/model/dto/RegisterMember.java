@@ -2,6 +2,7 @@ package pl.polsl.library.model.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +14,7 @@ public class RegisterMember {
     @NotBlank
     private String email;
     @NotBlank
+    @Size(min = 8, max = 32)
     private String password;
 
     public RegisterMember(){

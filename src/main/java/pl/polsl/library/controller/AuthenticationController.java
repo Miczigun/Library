@@ -25,7 +25,7 @@ public class AuthenticationController {
     @PostMapping("/register")
     public ResponseEntity<Map<String, String>> registerUser(@Valid @RequestBody RegisterMember body, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
-            return new ResponseEntity<>(Map.of("message","Please provide correct data"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(Map.of("message","Username can not be empty and password must have minimum 8 characters"), HttpStatus.BAD_REQUEST);
         } else if (authenticationService.existsUser(body.getEmail())){
             return new ResponseEntity<>(Map.of("message","That email is taken"), HttpStatus.BAD_REQUEST);
         } else {

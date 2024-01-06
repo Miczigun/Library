@@ -8,7 +8,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.polsl.library.model.*;
+import pl.polsl.library.model.dto.ChangePasswordDto;
 import pl.polsl.library.model.dto.LoanDto;
+import pl.polsl.library.model.dto.PersonalDataDto;
 import pl.polsl.library.repository.BookRepository;
 import pl.polsl.library.repository.LoanRepository;
 import pl.polsl.library.repository.MemberRepository;
@@ -59,6 +61,27 @@ public class MemberService implements UserDetailsService {
         List<Loan> userLoans = loanRepository.findByMemberId_Id(id);
 
         return userLoans.stream().map(Loan::getBookId).collect(Collectors.toList());
+    }
+
+    public void addPersonalData(long memberId, PersonalDataDto personalData){
+        Member member = memberRepository.findById(memberId).orElseThrow();
+        member.setAddress(personalData.getAddress());
+        member.setName(personalData.getName());
+        member.setSurname(personalData.getSurname());
+        memberRepository.save(member);
+    }
+
+    public boolean changePassword(long memberId, ChangePasswordDto changePassword){
+        Member member = memberRepository.findById(memberId).orElseThrow();
+        if (encoder.matches(changePassword.getPassword(), member.getPassword())) {
+            return false;
+        }
+
+        String encodedPassword = encoder.encode(changePassword.getNewPassword());
+        member.setPassword(encodedPassword);
+        memberRepository.save(member);
+
+        return true;
     }
 
     public boolean loanBook(long memberId, long bookId){
