@@ -11,13 +11,17 @@ import pl.polsl.library.model.*;
 import pl.polsl.library.model.dto.ChangePasswordDto;
 import pl.polsl.library.model.dto.LoanDto;
 import pl.polsl.library.model.dto.PersonalDataDto;
+import pl.polsl.library.model.dto.RegisterMember;
 import pl.polsl.library.repository.BookRepository;
 import pl.polsl.library.repository.LoanRepository;
 import pl.polsl.library.repository.MemberRepository;
+import pl.polsl.library.repository.RoleRepository;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +31,7 @@ public class MemberService implements UserDetailsService {
     private final MemberRepository memberRepository;
     private final LoanRepository loanRepository;
     private final BookRepository bookRepository;
+    private final RoleRepository roleRepository;
 
     @Autowired
     private PasswordEncoder encoder;
@@ -147,4 +152,26 @@ public class MemberService implements UserDetailsService {
         return loanDTOs;
     }
 
+    public Member createLibrarian(RegisterMember librarian){
+        String encodedPassword = encoder.encode(librarian.getPassword());
+        Role userRole = roleRepository.findByAuthority("LIBRARIAN").get();
+
+        Set<Role> authorities = new HashSet<>();
+
+        authorities.add(userRole);
+
+        Member member = new Member(librarian.getEmail(),encodedPassword, librarian.getName(), librarian.getSurname(), librarian.getAddress(), authorities);
+        return memberRepository.save(member);
+    }
+
+    public boolean changeAddress(long memberId, String address){
+        Member member = memberRepository.findById(memberId).orElseThrow();
+        if (!address.isEmpty() && address.length() < 250){
+            member.setAddress(address);
+            memberRepository.save(member);
+            return true;
+        }
+
+        return false;
+    }
 }

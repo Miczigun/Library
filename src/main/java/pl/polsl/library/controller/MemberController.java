@@ -78,4 +78,17 @@ public class MemberController {
         }
     }
 
+    @PostMapping("/change-address")
+    public ResponseEntity<Map<String, String>> changeAddress(String address){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+        Member member = memberService.getMemberByEmail(userEmail);
+
+        if (memberService.changeAddress(member.getId(), address)){
+            return new ResponseEntity<>(Map.of("message", "Success"),HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(Map.of("message", "Address can not be empty and has maximum 250 characters"), HttpStatus.BAD_REQUEST);
+        }
+    }
 }

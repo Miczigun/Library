@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.polsl.library.model.dto.LoginMember;
 import pl.polsl.library.model.Member;
 import pl.polsl.library.model.Role;
+import pl.polsl.library.model.dto.RegisterMember;
 import pl.polsl.library.repository.MemberRepository;
 import pl.polsl.library.repository.RoleRepository;
 
@@ -37,16 +38,17 @@ public class AuthenticationService {
     @Autowired
     private TokenService tokenService;
 
-    public Member registerUser(String email, String password){
+    public Member registerUser(RegisterMember body){
 
-        String encodedPassword = passwordEncoder.encode(password);
+        String encodedPassword = passwordEncoder.encode(body.getPassword());
         Role userRole = roleRepository.findByAuthority("USER").get();
 
         Set<Role> authorities = new HashSet<>();
-
         authorities.add(userRole);
 
-        return memberRepository.save(new Member(email, encodedPassword, authorities));
+        Member member = new Member(body.getEmail(), encodedPassword, body.getName(), body.getSurname(), body.getAddress(), authorities);
+
+        return memberRepository.save(member);
     }
 
     public LoginMember loginUser(String email, String password){

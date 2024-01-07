@@ -29,14 +29,14 @@ public class AuthenticationController {
         } else if (authenticationService.existsUser(body.getEmail())){
             return new ResponseEntity<>(Map.of("message","That email is taken"), HttpStatus.BAD_REQUEST);
         } else {
-            authenticationService.registerUser(body.getEmail(), body.getPassword());
+            authenticationService.registerUser(body);
             return new ResponseEntity<>(Map.of("message","User registered successfully"), HttpStatus.OK);
         }
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestBody RegisterMember body) {
-        LoginMember loginMember = authenticationService.loginUser(body.getEmail(), body.getPassword());
+    public ResponseEntity<?> loginUser(@RequestParam String email, @RequestParam String password) {
+        LoginMember loginMember = authenticationService.loginUser(email, password);
         if (loginMember.getMember() != null) {
             return new ResponseEntity<>(loginMember, HttpStatus.OK);
         } else {

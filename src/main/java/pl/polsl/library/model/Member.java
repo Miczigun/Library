@@ -47,6 +47,16 @@ public class Member implements UserDetails {
         this.authorities = authorities;
     }
 
+    public Member(String email, String password,String name, String surname, String address ,Set<Role> authorities) {
+        super();
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.surname = surname;
+        this.address = address;
+        this.authorities = authorities;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         // TODO Auto-generated method stub
