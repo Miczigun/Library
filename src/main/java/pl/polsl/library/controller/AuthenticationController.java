@@ -35,8 +35,12 @@ public class AuthenticationController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> loginUser(@RequestParam String email, @RequestParam String password) {
+    public ResponseEntity<?> loginUser(@RequestBody Map<String, String> loginData) {
+        String email = loginData.get("email");
+        String password = loginData.get("password");
+
         LoginMember loginMember = authenticationService.loginUser(email, password);
+
         if (loginMember.getMember() != null) {
             return new ResponseEntity<>(loginMember, HttpStatus.OK);
         } else {

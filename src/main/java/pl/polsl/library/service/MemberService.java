@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import pl.polsl.library.model.*;
 import pl.polsl.library.model.dto.ChangePasswordDto;
 import pl.polsl.library.model.dto.LoanDto;
-import pl.polsl.library.model.dto.PersonalDataDto;
 import pl.polsl.library.model.dto.RegisterMember;
 import pl.polsl.library.repository.BookRepository;
 import pl.polsl.library.repository.LoanRepository;
@@ -66,14 +65,6 @@ public class MemberService implements UserDetailsService {
         List<Loan> userLoans = loanRepository.findByMemberId_Id(id);
 
         return userLoans.stream().map(Loan::getBookId).collect(Collectors.toList());
-    }
-
-    public void addPersonalData(long memberId, PersonalDataDto personalData){
-        Member member = memberRepository.findById(memberId).orElseThrow();
-        member.setAddress(personalData.getAddress());
-        member.setName(personalData.getName());
-        member.setSurname(personalData.getSurname());
-        memberRepository.save(member);
     }
 
     public boolean changePassword(long memberId, ChangePasswordDto changePassword){
@@ -150,18 +141,6 @@ public class MemberService implements UserDetailsService {
         }
 
         return loanDTOs;
-    }
-
-    public Member createLibrarian(RegisterMember librarian){
-        String encodedPassword = encoder.encode(librarian.getPassword());
-        Role userRole = roleRepository.findByAuthority("LIBRARIAN").get();
-
-        Set<Role> authorities = new HashSet<>();
-
-        authorities.add(userRole);
-
-        Member member = new Member(librarian.getEmail(),encodedPassword, librarian.getName(), librarian.getSurname(), librarian.getAddress(), authorities);
-        return memberRepository.save(member);
     }
 
     public boolean changeAddress(long memberId, String address){

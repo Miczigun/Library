@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import pl.polsl.library.model.Member;
 import pl.polsl.library.model.dto.ChangePasswordDto;
 import pl.polsl.library.model.dto.LoanDto;
-import pl.polsl.library.model.dto.PersonalDataDto;
 import pl.polsl.library.service.MemberService;
 
 import java.util.List;
@@ -51,14 +50,6 @@ public class MemberController {
         Member member = memberService.getMemberByEmail(userEmail);
 
         return memberService.getUserLoans(member.getId());
-    }
-
-    @PostMapping("/personal-data")
-    public void addPersonalData(@RequestBody PersonalDataDto personalData){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String userEmail = authentication.getName();
-        Member member = memberService.getMemberByEmail(userEmail);
-        memberService.addPersonalData(member.getId(), personalData);
     }
 
     @PostMapping("/change-password")
