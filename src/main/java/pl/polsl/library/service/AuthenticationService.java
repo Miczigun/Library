@@ -68,11 +68,12 @@ public class AuthenticationService {
     }
 
     public boolean existsUser(String email){
-        Member member = memberRepository.findByEmail(email).orElseThrow();
-        if (member == null){
+        try{
+            Member member = memberRepository.findByEmail(email).orElseThrow();
+            return true;
+        } catch (Exception e){
             return false;
         }
-        return true;
     }
 
 }
