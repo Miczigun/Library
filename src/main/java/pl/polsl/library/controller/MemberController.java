@@ -10,7 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.polsl.library.model.Member;
 import pl.polsl.library.model.dto.ChangePasswordDto;
-import pl.polsl.library.model.dto.LoanDto;
+import pl.polsl.library.model.dto.LoanProjection;
 import pl.polsl.library.service.MemberService;
 
 import java.util.List;
@@ -44,7 +44,7 @@ public class MemberController {
     }
 
     @GetMapping("/books")
-    public List<LoanDto> userBooks(){
+    public List<LoanProjection> userBooks(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
         Member member = memberService.getMemberByEmail(userEmail);

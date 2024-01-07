@@ -7,20 +7,18 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.polsl.library.model.*;
+import pl.polsl.library.model.Book;
+import pl.polsl.library.model.Loan;
+import pl.polsl.library.model.Member;
 import pl.polsl.library.model.dto.ChangePasswordDto;
-import pl.polsl.library.model.dto.LoanDto;
-import pl.polsl.library.model.dto.RegisterMember;
+import pl.polsl.library.model.dto.LoanProjection;
 import pl.polsl.library.repository.BookRepository;
 import pl.polsl.library.repository.LoanRepository;
 import pl.polsl.library.repository.MemberRepository;
 import pl.polsl.library.repository.RoleRepository;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -123,24 +121,8 @@ public class MemberService implements UserDetailsService {
         return days;
     }
 
-    public List<LoanDto> getUserLoans(long userId) {
-        List<Loan> loans = loanRepository.findByMemberId_Id(userId);
-        List<LoanDto> loanDTOs = new ArrayList<>();
-
-        for (Loan loan : loans) {
-            LoanDto loanDto = new LoanDto(
-                    loan.getId(),
-                    loan.getBookId().getId(),
-                    loan.getBookId().getTitle(),
-                    loan.getCheckOutDate(),
-                    loan.getDueDate(),
-                    loan.getReturnDate(),
-                    loan.isReturnStatus()
-            );
-            loanDTOs.add(loanDto);
-        }
-
-        return loanDTOs;
+    public List<LoanProjection> getUserLoans(long userId) {
+        return loanRepository.findMemberLoans(userId);
     }
 
     public boolean changeAddress(long memberId, String address){

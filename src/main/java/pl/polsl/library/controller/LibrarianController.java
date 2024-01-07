@@ -3,10 +3,11 @@ package pl.polsl.library.controller;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import pl.polsl.library.model.Book;
-import pl.polsl.library.model.dto.MemberBooks;
+import pl.polsl.library.model.dto.LoanProjection;
 import pl.polsl.library.model.dto.MemberProjection;
 import pl.polsl.library.service.BookService;
 import pl.polsl.library.service.LibrarianService;
+import pl.polsl.library.service.MemberService;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class LibrarianController {
 
     private final LibrarianService librarianService;
     private final BookService bookService;
+    private final MemberService memberService;
 
     @GetMapping("/user")
     public List<MemberProjection> getMembers(){
@@ -25,8 +27,8 @@ public class LibrarianController {
     }
 
     @GetMapping("/user/{id}")
-    public MemberBooks getMemberBooks(@PathVariable long id){
-        return librarianService.userBooksForLibrarian(id);
+    public List<LoanProjection> getMemberBooks(@PathVariable long id){
+        return memberService.getUserLoans(id);
     }
 
     @GetMapping("/book")
@@ -47,6 +49,11 @@ public class LibrarianController {
 
     @PostMapping("/books")
     public Book addBook(@RequestBody Book book){
+        return bookService.addBook(book);
+    }
+
+    @PutMapping("/update-book")
+    public Book updateBook(@RequestBody Book book){
         return bookService.addBook(book);
     }
 
