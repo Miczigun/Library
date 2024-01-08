@@ -11,6 +11,6 @@ import java.util.List;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
-    @Query("SELECT b FROM Book b WHERE (:title IS NULL OR b.title LIKE LOWER(CONCAT('%', :title, '%')))")
+    @Query("SELECT b FROM Book b WHERE :title IS NULL OR b.title LIKE %:title%")
     List<Book> findAllBooks(@Param("title") String title, Pageable page);
 }
