@@ -16,8 +16,8 @@ public class BookService {
     private final BookRepository bookRepository;
     private final static int PAGE_SIZE = 20;
 
-    public List<Book> getBooks(int page){
-        return bookRepository.findAllBooks(PageRequest.of(page,PAGE_SIZE));
+    public List<Book> getBooks(int page, String title){
+        return bookRepository.findAllBooks(title, PageRequest.of(page,PAGE_SIZE));
     }
 
     public Book getSingleBook(long id){

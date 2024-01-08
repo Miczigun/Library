@@ -32,9 +32,10 @@ public class LibrarianController {
     }
 
     @GetMapping("/book")
-    public List<Book> getBooks(@RequestParam(required = false) Integer page){
+    public List<Book> getBooks(@RequestParam(required = false) Integer page,
+                               @RequestParam(required = false) String title){
         int pageNumber = page != null && page >= 0 ? page : 0;
-        return bookService.getBooks(pageNumber);
+        return bookService.getBooks(pageNumber, title);
     }
 
     @GetMapping("/book/{id}")

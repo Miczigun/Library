@@ -1,6 +1,7 @@
 package pl.polsl.library.service;
 
 import java.util.HashSet;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -71,7 +72,7 @@ public class AuthenticationService {
         try{
             Member member = memberRepository.findByEmail(email).orElseThrow();
             return true;
-        } catch (Exception e){
+        } catch (NoSuchElementException e){
             return false;
         }
     }
