@@ -8,6 +8,9 @@ import java.security.KeyPair;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
+/**
+ * The {@code RSAKeyProperties} class represents properties for RSA public and private keys.
+ */
 @Component
 @Getter
 @Setter

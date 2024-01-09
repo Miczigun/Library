@@ -19,7 +19,10 @@ import pl.polsl.library.model.dto.RegisterMember;
 import pl.polsl.library.repository.MemberRepository;
 import pl.polsl.library.repository.RoleRepository;
 
-
+/**
+ * The {@code AuthenticationService} class provides services related to user authentication,
+ * including user registration, login, and user existence checks.
+ */
 @Service
 @Transactional
 public class AuthenticationService {
@@ -39,6 +42,12 @@ public class AuthenticationService {
     @Autowired
     private TokenService tokenService;
 
+    /**
+     * Register a new user with the provided registration information.
+     *
+     * @param body The registration information.
+     * @return The registered member.
+     */
     public Member registerUser(RegisterMember body){
 
         String encodedPassword = passwordEncoder.encode(body.getPassword());
@@ -52,6 +61,13 @@ public class AuthenticationService {
         return memberRepository.save(member);
     }
 
+    /**
+     * Authenticate a user with the provided email and password.
+     *
+     * @param email    The email of the user.
+     * @param password The password of the user.
+     * @return The login information including the member and JWT token.
+     */
     public LoginMember loginUser(String email, String password){
 
         try{
@@ -60,7 +76,7 @@ public class AuthenticationService {
             );
 
             String token = tokenService.generateJwt(auth);
-            // it can be bad solution!
+
             return new LoginMember(memberRepository.findByEmail(email).get(), token);
 
         } catch(AuthenticationException e){
@@ -68,6 +84,12 @@ public class AuthenticationService {
         }
     }
 
+    /**
+     * Check if a user with the specified email exists.
+     *
+     * @param email The email to check for existence.
+     * @return True if the user exists, false otherwise.
+     */
     public boolean existsUser(String email){
         try{
             Member member = memberRepository.findByEmail(email).orElseThrow();

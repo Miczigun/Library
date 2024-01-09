@@ -13,6 +13,10 @@ import pl.polsl.library.repository.RoleRepository;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * The {@code AdminService} class provides services specific to administrative tasks,
+ * such as creating librarian accounts and updating user roles.
+ */
 @Service
 @RequiredArgsConstructor
 public class AdminService {
@@ -23,6 +27,12 @@ public class AdminService {
     @Autowired
     private PasswordEncoder encoder;
 
+    /**
+     * Create a new librarian account with the provided registration information.
+     *
+     * @param librarian The registration information for the new librarian.
+     * @return The created librarian member.
+     */
     public Member createLibrarian(RegisterMember librarian){
         String encodedPassword = encoder.encode(librarian.getPassword());
         Role userRole = roleRepository.findByAuthority("LIBRARIAN").get();
@@ -35,6 +45,12 @@ public class AdminService {
         return memberRepository.save(member);
     }
 
+    /**
+     * Set the role of a member identified by their ID.
+     *
+     * @param memberId The ID of the member.
+     * @param role     The new role to be assigned to the member.
+     */
     public void setRole(long memberId, String role){
         Member member = memberRepository.findById(memberId).orElseThrow();
         Role newRole = roleRepository.findByAuthority(role).get();

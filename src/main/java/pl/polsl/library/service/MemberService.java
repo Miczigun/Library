@@ -19,8 +19,11 @@ import pl.polsl.library.repository.RoleRepository;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.stream.Collectors;
 
+/**
+ * The {@code MemberService} class provides services related to Member entities, including user authentication,
+ * CRUD operations, password management, book loans, and member details retrieval.
+ */
 @Service
 @RequiredArgsConstructor
 public class MemberService implements UserDetailsService {
@@ -33,38 +36,74 @@ public class MemberService implements UserDetailsService {
     @Autowired
     private PasswordEncoder encoder;
 
+    /**
+     * Load user details by username (email) for authentication purposes.
+     *
+     * @param email The email (username) of the user.
+     * @return UserDetails containing information about the user.
+     * @throws UsernameNotFoundException If the user is not found.
+     */
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         return memberRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User is not valid"));
     }
 
+    /**
+     * Get a list of all members in the library.
+     *
+     * @return List of all members.
+     */
     public List<Member> getMembers(){
 
         return memberRepository.findAll();
     }
 
+    /**
+     * Get a specific member by ID.
+     *
+     * @param id The ID of the member.
+     * @return The member with the specified ID.
+     */
     public Member getMember(long id){
         return memberRepository.findById(id).orElseThrow();
     }
 
+    /**
+     * Get a specific member by email.
+     *
+     * @param email The email of the member.
+     * @return The member with the specified email.
+     */
     public Member getMemberByEmail(String email){
         return memberRepository.findByEmail(email).orElseThrow();
     }
 
+    /**
+     * Add a new member to the library.
+     *
+     * @param member The member to be added.
+     * @return The added member.
+     */
     public Member addMember(Member member){
         return memberRepository.save(member);
     }
 
+    /**
+     * Delete a member by ID.
+     *
+     * @param id The ID of the member to be deleted.
+     */
     public void deleteMember(long id){
         memberRepository.deleteById(id);
     }
 
-    public List<Book> userBooks(long id){
-        List<Loan> userLoans = loanRepository.findByMemberId_Id(id);
-
-        return userLoans.stream().map(Loan::getBookId).collect(Collectors.toList());
-    }
-
+    /**
+     * Change the password for a member.
+     *
+     * @param memberId      The ID of the member.
+     * @param changePassword The DTO containing old and new password information.
+     * @return True if the password is successfully changed, false otherwise.
+     */
     public boolean changePassword(long memberId, ChangePasswordDto changePassword){
         Member member = memberRepository.findById(memberId).orElseThrow();
         if (encoder.matches(changePassword.getPassword(), member.getPassword())) {
@@ -78,6 +117,13 @@ public class MemberService implements UserDetailsService {
         return true;
     }
 
+    /**
+     * Loan a book to a member.
+     *
+     * @param memberId The ID of the member.
+     * @param bookId   The ID of the book to be loaned.
+     * @return True if the book is successfully loaned, false otherwise.
+     */
     public boolean loanBook(long memberId, long bookId){
         Member member = memberRepository.findById(memberId).orElseThrow();
         Book book = bookRepository.findById(bookId).orElseThrow();
@@ -103,6 +149,12 @@ public class MemberService implements UserDetailsService {
         return true;
     }
 
+    /**
+     * Return a book from loan and calculate any penalty.
+     *
+     * @param loanId The ID of the loan.
+     * @return The number of days the book is overdue.
+     */
     public int returnBook(long loanId){
         Loan loan = loanRepository.findById(loanId).orElseThrow();
 
@@ -121,13 +173,26 @@ public class MemberService implements UserDetailsService {
         return days;
     }
 
+    /**
+     * Get a list of loans for a specific member.
+     *
+     * @param userId The ID of the member.
+     * @return List of loans associated with the member.
+     */
     public List<LoanProjection> getUserLoans(long userId) {
         return loanRepository.findMemberLoans(userId);
     }
 
+    /**
+     * Change the address of a member.
+     *
+     * @param memberId The ID of the member.
+     * @param address   The new address to be set.
+     * @return True if the address is successfully changed, false otherwise.
+     */
     public boolean changeAddress(long memberId, String address){
         Member member = memberRepository.findById(memberId).orElseThrow();
-        if (!address.isEmpty() && address.length() < 250){
+        if (!address.isEmpty() && address.length() <= 250){
             member.setAddress(address);
             memberRepository.save(member);
             return true;
