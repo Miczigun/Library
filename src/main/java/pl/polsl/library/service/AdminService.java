@@ -25,7 +25,7 @@ public class AdminService {
     private final MemberRepository memberRepository;
 
     @Autowired
-    private PasswordEncoder encoder;
+    private final PasswordEncoder encoder;
 
     /**
      * Create a new librarian account with the provided registration information.
