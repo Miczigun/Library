@@ -106,7 +106,12 @@ public class MemberService implements UserDetailsService {
      */
     public boolean changePassword(long memberId, ChangePasswordDto changePassword){
         Member member = memberRepository.findById(memberId).orElseThrow();
-        if (encoder.matches(changePassword.getPassword(), member.getPassword())) {
+        boolean correctPassword = encoder.matches(changePassword.getPassword(), member.getPassword());
+
+        if (!correctPassword) {
+            return false;
+        }
+        if (changePassword.getPassword().equals(changePassword.getNewPassword())){
             return false;
         }
 

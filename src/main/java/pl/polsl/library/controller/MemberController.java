@@ -70,7 +70,7 @@ public class MemberController {
     }
 
     @PostMapping("/change-address")
-    public ResponseEntity<Map<String, String>> changeAddress(String address){
+    public ResponseEntity<Map<String, String>> changeAddress(@RequestBody String address){
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userEmail = authentication.getName();
