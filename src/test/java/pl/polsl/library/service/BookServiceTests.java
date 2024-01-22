@@ -28,7 +28,7 @@ class BookServiceTests {
     @Test
     void getBooks_shouldReturnCorrectListOfBooks() {
         int page = 0;
-        String title = "Test Title";
+        String title = "T";
 
         Book testBook1, testBook2;
         testBook1 = new Book();

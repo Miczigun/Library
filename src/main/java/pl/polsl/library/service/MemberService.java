@@ -34,7 +34,7 @@ public class MemberService implements UserDetailsService {
     private final RoleRepository roleRepository;
 
     @Autowired
-    private PasswordEncoder encoder;
+    private final PasswordEncoder encoder;
 
     /**
      * Load user details by username (email) for authentication purposes.

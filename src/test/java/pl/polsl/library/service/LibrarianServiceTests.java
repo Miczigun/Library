@@ -18,7 +18,7 @@ public class LibrarianServiceTests {
         MemberRepository memberRepository = mock(MemberRepository.class);
         LoanRepository loanRepository = mock(LoanRepository.class);
 
-        LibrarianService librarianService = new LibrarianService(memberRepository,loanRepository);
+        LibrarianService librarianService = new LibrarianService(memberRepository);
 
         MemberProjection memberProjection1 = mock(MemberProjection.class);
         when(memberProjection1.getId()).thenReturn(1L);
