@@ -61,6 +61,17 @@ public class MemberController {
         return memberService.getPenaltyPayment(member.getId());
     }
 
+    @GetMapping("/pay-fine")
+    public ResponseEntity<Map<String, String>> payFine(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+        Member member = memberService.getMemberByEmail(userEmail);
+
+        memberService.payFine(member.getId());
+        return new ResponseEntity<>(Map.of("message","Success"),HttpStatus.OK);
+    }
+
+
     @PostMapping("/change-password")
     public ResponseEntity<Map<String, String>> changePassword(@Valid @RequestBody ChangePasswordDto changePassword, BindingResult bindingResult){
         if (bindingResult.hasErrors()){

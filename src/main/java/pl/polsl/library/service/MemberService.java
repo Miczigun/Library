@@ -210,4 +210,10 @@ public class MemberService implements UserDetailsService {
         Member member = memberRepository.findById(memberId).orElseThrow();
         return member.getPenaltyPayment();
     }
+
+    public void payFine(long memberId){
+        Member member = memberRepository.findById(memberId).orElseThrow();
+        member.setPenaltyPayment(0);
+        memberRepository.save(member);
+    }
 }
