@@ -52,6 +52,15 @@ public class MemberController {
         return memberService.getUserLoans(member.getId());
     }
 
+    @GetMapping("/penalty-payment")
+    public int getPenaltyPayment(){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userEmail = authentication.getName();
+        Member member = memberService.getMemberByEmail(userEmail);
+
+        return memberService.getPenaltyPayment(member.getId());
+    }
+
     @PostMapping("/change-password")
     public ResponseEntity<Map<String, String>> changePassword(@Valid @RequestBody ChangePasswordDto changePassword, BindingResult bindingResult){
         if (bindingResult.hasErrors()){
