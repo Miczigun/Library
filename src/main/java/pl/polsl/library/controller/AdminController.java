@@ -53,10 +53,14 @@ public class AdminController {
     }
 
     @PostMapping("/set-role")
-    public void setRole(@RequestBody Map<String, String> roleData){
+    public ResponseEntity<Map<String, String>> setRole(@RequestBody Map<String, String> roleData){
         long memberId = Long.parseLong(roleData.get("id"));
         String role = roleData.get("role");
-
-        adminService.setRole(memberId, role);
+        try {
+            adminService.setRole(memberId, role);
+            return new ResponseEntity<>(Map.of("message","Success"), HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(Map.of("message","Invalid role"), HttpStatus.BAD_REQUEST);
+        }
     }
 }
