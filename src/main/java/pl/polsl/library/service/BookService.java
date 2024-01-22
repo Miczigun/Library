@@ -60,4 +60,9 @@ public class BookService {
         bookRepository.deleteById(id);
     }
 
+    public int totalPages(){
+        List<Book> books = bookRepository.findAll();
+        int totalPages = books.size() % PAGE_SIZE == 0 ? books.size() / PAGE_SIZE : books.size() / PAGE_SIZE + 1;
+        return totalPages;
+    }
 }
