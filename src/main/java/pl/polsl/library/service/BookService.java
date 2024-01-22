@@ -17,7 +17,7 @@ import java.util.List;
 public class BookService {
 
     private final BookRepository bookRepository;
-    private final static int PAGE_SIZE = 20;
+    private final static int PAGE_SIZE = 10;
 
 
     /**
