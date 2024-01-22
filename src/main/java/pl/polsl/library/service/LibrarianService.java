@@ -16,8 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class LibrarianService {
 
-    private MemberRepository memberRepository;
-    private LoanRepository loanRepository;
+    private final MemberRepository memberRepository;
 
     /**
      * Get a list of members with basic information for librarian use.
